@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myAppModule">
+<head>
+<style>
+#map {
+	border-size: 2px;
+	border-style: solid;
+	border-color: black;
+}
+
+#container {
+	margin: 20px;
+	width: 200px;
+	height: 200px;
+}
+
+.clearfix:before, .clearfix:after {
+	content: " ";
+	display: table;
+}
+
+.clearfix:after {
+	clear: both;
+}
+
+.clearfix {
+	*zoom: 1;
+}
+
+label {
+	display: inline-block;
+	width: 200px;
+}
+
+input {
+	display: inline-block;
+}
+
+iframe {
+	display: inline-block;
+}
+</style>
+<link rel="stylesheet" href="css/circle.css">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!-- Meta, title, CSS, favicons, etc. -->
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>AQMS</title>
+
+<!-- Bootstrap -->
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+	integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+	crossorigin="anonymous">
+
+<!-- Optional theme -->
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+	integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
+	crossorigin="anonymous">
+
+<script src="https://code.jquery.com/jquery-3.1.0.min.js"
+	integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s="
+	crossorigin="anonymous"></script>
+
+<!-- Latest compiled and minified JavaScript -->
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+	integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+	crossorigin="anonymous"></script>
+
+<!-- Font Awesome -->
+<!-- 		<link href="./vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+		NProgress
+		<link href="./vendors/nprogress/nprogress.css" rel="stylesheet">
+		iCheck
+		<link href="./vendors/iCheck/skins/flat/green.css" rel="stylesheet">
+		bootstrap-progressbar
+		<link href="./vendors/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css" rel="stylesheet"> -->
+<!-- JQVMap -->
+<link href="./vendors/jqvmap/dist/jqvmap.min.css" rel="stylesheet" />
+
+<!-- Custom Theme Style -->
+<link href="build/css/custom.min.css" rel="stylesheet">
+
+<!-- Angular -->
+<script
+	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js"></script>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular-route.min.js"></script>
+<script src="UIapp.js"></script>
+<style>
+.navbar-toggle .icon-bar {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background-color: #cccccc;
+  border-radius: 1px;
+}
+</style>
+</head>
+<!--  AIzaSyAeAb9sxFDw-aQbONGza6oJJ0EH25LuAlk -->
+
+
+<body ng-controller="HomeController">
+	<div class="container body">
+		<div class="main_container">
+			<div class="row">
+				<div class="col-xs-12 col-sm-2 col-md-2 col-lg-2 left_col">
+					<div class="scroll-view">
+
+					    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#home">The Mean Wizards</a>
+    </div>
+ 
+						<!--<div class="navbar nav_title" style="border: 0;">
+							<a href="#home" class="site_title">The Mean Wizards</a>
+						</div>-->
+
+						<div class="clearfix"></div>
+
+						<!-- menu profile quick info -->
+
+						<!-- sidebar menu -->
+						<div id="myNavbar" class="collapse navbar-collapse">
+							<div class="menu_section">
+
+								<ul class="nav side-menu">
+
+
+									<li ng-click="showParameters=false"><a href="#aqi"><span
+											class="glyphicon glyphicon-home"> AQI</span> </a></li>
+									<li ng-click="showParameters=true"><a href="#parameters"><span
+											class="glyphicon glyphicon-hdd"> View By Parameters</span></a>
+
+										<ul style="list-style: none;"
+											ng-repeat="checkParameter in parameters"
+											ng-show="showParameters">
+											<li><input type="checkbox" value="{{checkParameter}}"
+												ng-checked="selection.indexOf(checkParameter) != -1"
+												ng-click="toggleSelection(checkParameter)">
+												{{checkParameter}}</li>
+										</ul></li>
+									<li ng-click="showParameters=false"><a href="#routes"><span
+											class="glyphicon glyphicon-sort"> Routes</span></a></li>
+
+
+								</ul>
+							</div>
+
+						</div>
+
+
+
+					</div>
+				</div>
+
+				<div class="col-xs-12 col-sm-10 col-md-10 col-lg-10 right_col">
+					<div class="nav_menu">
+						<h1 align="center">
+							Air Quality Monitoring System
+							<button type="button" class="pull-right" data-toggle="modal"
+								data-target="#tweetModal">
+								<img src="images/twitter.png" style="width: 20px; height: 20px" />
+							</button>
+
+						</h1>
+
+					</div>
+					<div id='main'>
+						<!--this is where content will be injected-->
+						<div ng-view></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Modal -->
+	<div id="tweetModal" class="modal fade" role="dialog">
+		<div class="modal-dialog">
+
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">
+						<strong>Tweet</strong>
+					</h4>
+				</div>
+				<div class="modal-body">
+					<form action="https://mean-wizards-v2.mybluemix.net/api/tweet"
+						method="post" target="frame">
+
+						<label for="handle"><b>Twitter handle: </b></label><input
+							type="text" id="handle" name="handle" value="@"/><br /><label for="tweet"><b>Tweet:
+						</b></label><input type="text" id="tweet" name="tweet"
+							value="#{{locDict[location]}}AQI:{{aqi}} " /><br />
+						<button type="submit" class="pull-right">
+							<img src="images/twitter.png" style="width: 20px; height: 20px" />
+						</button>
+						<br />
+						<iframe name="frame" style="width: 100px; height: 60px;"></iframe>
+					</form>
+
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+
+		</div>
+	</div>
+	<!-- Custom Theme Scripts -->
+</body>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-progressbar/0.9.0/bootstrap-progressbar.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/flot/0.8.3/jquery.flot.min.js"></script>
+
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/flot/0.8.3/jquery.flot.resize.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/flot/0.8.3/jquery.flot.pie.min.js"></script>
+
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/flot/0.8.3/jquery.flot.categories.min.js"></script>
+
+<!--Google charts-->
+<script type="text/javascript"
+	src="https://www.gstatic.com/charts/loader.js"></script>
+
+<!--  <script src="charts.js"></script>
+ -->
+</html>
